@@ -6,13 +6,14 @@
     Récupérer toutes les sauces : get
 */
 
-const Sauce = require("../models/sauce");
+const Sauce = require("../models/sauce")
 const fs = require("fs"); 
-const sauce = require("../models/sauce");
+
 
 // *****fonction pour la création d'une sauce : post 
 exports.createSauce = (req, res, next) => { 
-  const sauceObjet = JSON.parse(req.body.sauce);
+  // on parse les données envoyés pour les récupérer
+  const sauceObjet = JSON.parse(req.body.sauce);  
   delete sauceObjet._id;
   sauceObjet.likes = 0;
   sauceObjet.dislikes = 0;
@@ -20,10 +21,9 @@ exports.createSauce = (req, res, next) => {
     ...sauceObjet, // va copier les champs du body de la request : toutes les infos
 
     // récupérer l'url compléte de l'image,
-    //1 er: http ou https (protocol) + host du serveur : racine serveur + nom fichier
+    //1 er: http ou https (protocol) + host du serveur : racine + nom fichier
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`,
+      req.file.filename }`,
   });
    //req.protocol: http ou https et req.get('host') ici localhost:3000
     sauce.save() // enregistre l'objet dans la base
@@ -50,7 +50,7 @@ exports.modifySauce = (req, res, next) => {
     .updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
     .then(() => res.status(200).json({ message: "Sauce modifiée !" }))
     .catch((error) => res.status(400).json({ error }));
-};;
+};
 
 //****supprimer une sauce 
 exports.deleteSauce = (req, res, next) => {
