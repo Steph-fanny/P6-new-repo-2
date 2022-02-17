@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 
 // ajoute fichier entrant : images
 const multer = require("../middleware/multer-config");
-// controller sauce
+// importer le controller sauce
 const sauceCtrl = require('../controllers/sauce');
 
 //créer une sauce

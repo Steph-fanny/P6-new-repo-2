@@ -5,7 +5,7 @@
     Suppression : delete
     Récupérer toutes les sauces : get
 */
-
+// enregistrement dasn la BDD
 const Sauce = require("../models/sauce")
 const fs = require("fs"); 
 
@@ -31,9 +31,9 @@ exports.createSauce = (req, res, next) => {
     .catch(error => res.status(401).json({ error }));
 };
 
-//*****récupérer une sauce 
+//*****récupérer une sauce  : get
 exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
+  Sauce.findOne({ _id: req.params.id }) // trouver la sauce ayant le même -id que parametre req
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(404).json({ error }));
 };

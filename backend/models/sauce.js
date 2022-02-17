@@ -1,6 +1,8 @@
+
+// importer moongoose pour schema
 const mongoose = require("mongoose");
 
-//instructions P4
+//instructions P4 : methode schema
 const sauceSchema = mongoose.Schema({
   userId: { type: String, required: true }, //l'identifiant unique de l'utilisateur qui a créé
   name: { type: String, required: true },

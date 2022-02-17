@@ -34,7 +34,7 @@ exports.login = (req, res, next) => {
             if (!user) {
                 return res.status(401).json({ error: "Utilisateur non trouvé !" });
             }
-            // comparer MDP envoyé par utilisateur avec le hash enregistrer dans a=la BDD
+            // comparer MDP envoyé par utilisateur avec le hash enregistrer dans la BDD
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     // si non valide => erreur
