@@ -1,13 +1,11 @@
 /*Configuration: 
   1 : import des modules 
-  2 : BDD
+  2 : BDD: SQL
   3 : initialisation de l'app
   4 : sécurité : CORE, helmet, cookies
   5 : bodyparser
   6 : routes
   7 : exportation de l'app */
-
-
 
 // ******** Imports des modules****************
     //express, bodyparser, mongoose
@@ -20,7 +18,7 @@ const path = require(`path`); // donne accés systéme de fichier images
 const helmet = require(`helmet`);
 //stocke id de cession dans le cookies
 const cookieSession = require(`cookie-session`);
-  // variable d'environnement
+  // variable d'environnement : non crée
   // const dotenv = require("dotenv").config({path :'./config/.env'})
   
 const sauceRoutes = require("./routes/sauce");

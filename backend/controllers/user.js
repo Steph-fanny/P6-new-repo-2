@@ -1,13 +1,16 @@
 // importation package cryptage de données et token
 const bcrypt = require(`bcrypt`);
 const jwt = require(`jsonwebtoken`);
-
 const User = require("../models/user");
+const mailValidator = require("express-validator");
 
 //enregistrement de nouveau utilisateur
 exports.signup = (req, res, next) => {
-  console.log(req);
-  //// fonction hacher le MDP : fonction asynchrone
+  const isValidateEmail = mailValidator.validate(req.body.email);
+  if (!isValidateEmail) {
+    return res.status(400).json({message :"Le format de l'email est incorrect !"});  
+  }else{          
+    //// fonction hacher le MDP : fonction asynchrone
   bcrypt.hash(req.body.password, 10)
     // creation nouveau user avec MDP crypté
     .then(hash => {
@@ -24,7 +27,7 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
    
 };
-
+};
 // Connecter des utilisateurs existants
 exports.login = (req, res, next) => {
     // trouver le user dans la BDD par email rentré dans l'appli : si existe : connexion
