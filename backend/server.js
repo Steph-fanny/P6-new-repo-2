@@ -3,6 +3,9 @@ const http = require("http");
 // importer l'application
 const app = require("./app");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 //fonction normalizePort : renvoie un port valide, forme n° ou chaine
 const normalizePort = (val) => {
   const port = parseInt(val, 10);

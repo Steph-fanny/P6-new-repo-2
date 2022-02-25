@@ -18,8 +18,9 @@ const path = require(`path`); // donne accés systéme de fichier images
 const helmet = require(`helmet`);
 //stocke id de cession dans le cookies
 const cookieSession = require(`cookie-session`);
-  // variable d'environnement : non crée
-  // const dotenv = require("dotenv").config({path :'./config/.env'})
+
+  // variable d'environnement :
+require("dotenv").config();
   
 const sauceRoutes = require("./routes/sauce");
 const userRoutes = require("./routes/user");
@@ -30,8 +31,9 @@ const userRoutes = require("./routes/user");
 mongoose
   .connect(
     // "mongodb+srv://STP6opr:pL7aJVPqZ3MNTzp@cluster0.t2d6e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    "mongodb+srv://STP6opr:PZtyU4ImHTBbgGtl@cluster0.t2d6e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true })
+    process.env.passwordConnexionMDB,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
