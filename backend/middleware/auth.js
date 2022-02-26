@@ -19,6 +19,8 @@ module.exports = (req, res, next) => {
         throw 'Mauvais ID utilisateur !'
       }
       else{ 
+        //verifier que c'est bien l'utilisateur "local"
+        res.locals.idUser = userId
         next();
       }   
 

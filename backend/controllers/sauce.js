@@ -40,20 +40,36 @@ exports.getOneSauce = (req, res, next) => {
 
 // ***** modification d'une sauce selectionnée : put
 exports.modifySauce = (req, res, next) => {
-  const sauceObject = req.file ? //soit on change l'image si une nouvelle soit on modifie juste le corps de la requête
-      {
-        ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };      
+  // const currentUser = res.locals.idUser
+  // if (currentUser == req.body.id
+
+
+  Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+// tableau de 2 élements  : on récupére  nom de fichier tout ce qu'il y a apres /images/
+    const filename = sauce.imageUrl.split(`/images/`)[1];
+    // fonction de fs : unlink (suppression) ancienne image si modif
+    fs.unlink(`images/${filename}`,() => {
+    const sauceObject = req.file ? //soit on change l'image si une nouvelle soit on modifie juste le corps de la requête
+        {
+          ...JSON.parse(req.body.sauce),
+          imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : { ...req.body };   
+       
   //1er argument:  quelle sauce on veut modifier, 2 eme: récupère les infos du body pour les attribuer au même id
-  Sauce
-    .updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+  Sauce.updateOne(
+    { _id: req.params.id }, 
+    { ...sauceObject, _id: req.params.id }
+    )    
     .then(() => res.status(200).json({ message: "Sauce modifiée !" }))
     .catch((error) => res.status(400).json({ error }));
-};
+    });
+  });
+}
+  
 
 //****supprimer une sauce 
 exports.deleteSauce = (req, res, next) => {
+  const currentUser = res.locals.idUser;
   // chercher  l'objet à supprimer pour  avoir url image => accés noms fichier à supprimer
    Sauce.findOne({ _id: req.params.id })
     // récupération d'1 sauce avec nom fichier
@@ -69,7 +85,6 @@ exports.deleteSauce = (req, res, next) => {
       });
    })
    .catch(error => res.status(500).json({ error }));
-  
 };
 
 //****récupération de  toutes les sauces 
@@ -129,10 +144,10 @@ exports.voteSauce = (req, res, next) => {
        if(sauce.usersLiked.includes(req.body.userId)){
          console.log("cette sauce a été likée")
        }
-     })
-    
-   }
- }
+     })    
+   };
+  };
+ 
 
 
 
