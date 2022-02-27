@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true }, // (MDP haché avec bcript)
 });
 
+//securité pour ne pas utiliser 2 fois la même adresse mail
 userSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("User", userSchema);

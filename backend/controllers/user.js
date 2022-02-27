@@ -19,6 +19,8 @@ exports.signup = (req, res, next) => {
         email: req.body.email, // voir modele : user.js
         password: hash
       });
+      console.log("-->contenu user");
+      console.log(user)
       // enregistrement utilisateur dans la BDD
       user.save()
         .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
