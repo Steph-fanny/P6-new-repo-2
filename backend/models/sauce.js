@@ -11,8 +11,10 @@ const sauceSchema = mongoose.Schema({
   mainPepper: { type: String, required: true }, //— le principal ingrédient épicé
   imageUrl: { type: String, required: true },
   heat: { type: Number, required: true }, //nombre entre 1 et 10 décrivant la sauce
-  likes: { type: Number }, // nb d'utilisateurs qui aiment
-  dislikes: { type: Number },
+  
+  //systeme de like/ dislike
+  likes: { type: Number, default: 0 }, // nb d'utilisateurs qui aiment
+  dislikes: { type: Number, default: 0 },
   usersLiked: [{ type: String }],
   usersDisliked: [{ type: String }],
 });

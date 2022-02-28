@@ -40,10 +40,6 @@ exports.getOneSauce = (req, res, next) => {
 
 // ***** modification d'une sauce selectionnée : put
 exports.modifySauce = (req, res, next) => {
-  // const currentUser = res.locals.idUser
-  // if (currentUser == req.body.id
-
-
   Sauce.findOne({ _id: req.params.id }).then((sauce) => {
 // tableau de 2 élements  : on récupére  nom de fichier tout ce qu'il y a apres /images/
     const filename = sauce.imageUrl.split(`/images/`)[1];
@@ -69,7 +65,7 @@ exports.modifySauce = (req, res, next) => {
 
 //****supprimer une sauce 
 exports.deleteSauce = (req, res, next) => {
-  const currentUser = res.locals.idUser;
+  // const currentUser = res.locals.idUser;
   // chercher  l'objet à supprimer pour  avoir url image => accés noms fichier à supprimer
    Sauce.findOne({ _id: req.params.id })
     // récupération d'1 sauce avec nom fichier
@@ -94,59 +90,71 @@ exports.getAllSauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));   
 };
 
-
-
-
 /**** like/ dislike des sauces 
  * récupérer l'id de la sauce que l'on souhaite liker : findone
- * va chercher le tableau de la sauce: 
- *   on rajouter l'ID du user (usersLiked) si elle n'existe pas deja : addToSet
- *   on incrémente le like de 1  : $inc
+ * chercher le tableau de la sauce: 
+ * rajouter l'ID du user (usersLiked) si elle n'existe pas deja : addToSet
+ * incrémenter le like de 1  : $inc
  * 
  * puis injecter l'ID du post liké : liked
   
 */
 
-exports.voteSauce = (req, res, next) => { 
-  // l'utilisateur aime
+// exports.voteSauce = (req, res, next) => { 
+//   // l'utilisateur aime  
+//     console.log(req.body.like);
+//   if (req.body.like === 1 ){
+//     Sauce.findByIdAndUpdate(
+//       //findByIdAndUpdate
+//       { _id: req.params.id }, // si trouve userId dans la requete
+//       { $inc: { likes: +1 }, $push: { usersLiked: req.body.userId } }
+//     )
+//       .then(() =>
+//         res
+//           .status(200)
+//           .json({ message: "votre like a bien été pris en compte" })
+//       )
+//       .catch((error) => console.log(error));
+//     // l'utilisateur n'aime pas
+//     }else if(req.body.like === -1) {
+//       Sauce.findByIdAndUpdate(
+//         { _id: req.params.id },
+//         { $inc: { dislikes: +1 },$push: { usersDisliked: req.body.userId } })
+//           .then(() => res.status(200).json({ message: "votre dislike a bien été pris en compte" }))
+//           .catch((error) => console.log(error));
+
+//     } else{
+//     //  l'utilisateur enléve le like ou dislike
+//       Sauce.findOne({_id : req.params.id})
+//         .then(sauce => {
+//           // si le userId est dans la tableau userLiked
+//           if (sauce.usersLiked.includes(req.body.userId) && req.body.like === 0 ){
+//             Sauce.updatedOne(
+//               { _id: req.params.id },
+//               // on enleve -1 au like; pull supprime toutes les valeurs existantes du userId
+//               { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } })
+//               .then(() => res.status(200).json({ message: "like supprimé" }))
+//               .catch((error) => console.log(error));
+//           } else if (
+//             (sauce.usersDisliked.includes(req.body.userId) && req.body.like === 0)){
+//             Sauce.updateOne(
+//               { _id: req.params.id },
+//               { $inc: { dislikes: -1 },
+//                 $pull: { usersDisliked: req.body.userId },
+//               }
+//             )
+//               .then(() => {
+//                 res.status(201).json({ message: "Dislike supprimé !" });
+//               })
+//               .catch((error) => res.status(400).json({ error }));
+//           }            
+//       })
+//   .catch(error => res.status(400).json({ error }));
+//   }
+// }
+
+      
   
-    console.log(req.body.like);
-    if (req.body.like == 1 ){
-      Sauce.findByIdAndUpdate(
-        { _id: req.params.id },
-        { $inc: { likes: +1 }, $addToSet: { usersLiked: req.body.userId } }
-      )
-        .then(() =>
-          res
-            .status(200)
-            .json({ message: "votre like a bien été pris en compte" })
-        )
-        .catch((error) => console.log(error));
-    }
-     if (req.body.like == -1) {
-       Sauce.findByIdAndUpdate(
-         { _id: req.params.id },
-         {
-           $inc: { dislikes: +1 },
-           $addToSet: { usersDisliked: req.body.userId },
-         }
-       )
-         .then(() =>
-           res
-             .status(200)
-             .json({ message: "votre dislike a bien été pris en compte" })
-         )
-         .catch((error) => console.log(error));
-     }  
-   if (req.body.like == 0) {
-     Sauce.findOne({_id : req.params.id})
-     .then ((sauce)=>{
-       if(sauce.usersLiked.includes(req.body.userId)){
-         console.log("cette sauce a été likée")
-       }
-     })    
-   };
-  };
  
 
 
