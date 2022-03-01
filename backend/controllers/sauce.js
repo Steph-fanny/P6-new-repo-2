@@ -5,7 +5,7 @@
     Suppression : delete
     Récupérer toutes les sauces : get
 */
-// enregistrement dasn la BDD
+// enregistrement dans la BDD
 const Sauce = require("../models/sauce")
 const fs = require("fs"); 
 
@@ -90,68 +90,7 @@ exports.getAllSauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));   
 };
 
-/**** like/ dislike des sauces 
- * récupérer l'id de la sauce que l'on souhaite liker : findone
- * chercher le tableau de la sauce: 
- * rajouter l'ID du user (usersLiked) si elle n'existe pas deja : addToSet
- * incrémenter le like de 1  : $inc
- * 
- * puis injecter l'ID du post liké : liked
-  
-*/
 
-// exports.voteSauce = (req, res, next) => { 
-//   // l'utilisateur aime  
-//     console.log(req.body.like);
-//   if (req.body.like === 1 ){
-//     Sauce.findByIdAndUpdate(
-//       //findByIdAndUpdate
-//       { _id: req.params.id }, // si trouve userId dans la requete
-//       { $inc: { likes: +1 }, $push: { usersLiked: req.body.userId } }
-//     )
-//       .then(() =>
-//         res
-//           .status(200)
-//           .json({ message: "votre like a bien été pris en compte" })
-//       )
-//       .catch((error) => console.log(error));
-//     // l'utilisateur n'aime pas
-//     }else if(req.body.like === -1) {
-//       Sauce.findByIdAndUpdate(
-//         { _id: req.params.id },
-//         { $inc: { dislikes: +1 },$push: { usersDisliked: req.body.userId } })
-//           .then(() => res.status(200).json({ message: "votre dislike a bien été pris en compte" }))
-//           .catch((error) => console.log(error));
-
-//     } else{
-//     //  l'utilisateur enléve le like ou dislike
-//       Sauce.findOne({_id : req.params.id})
-//         .then(sauce => {
-//           // si le userId est dans la tableau userLiked
-//           if (sauce.usersLiked.includes(req.body.userId) && req.body.like === 0 ){
-//             Sauce.updatedOne(
-//               { _id: req.params.id },
-//               // on enleve -1 au like; pull supprime toutes les valeurs existantes du userId
-//               { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } })
-//               .then(() => res.status(200).json({ message: "like supprimé" }))
-//               .catch((error) => console.log(error));
-//           } else if (
-//             (sauce.usersDisliked.includes(req.body.userId) && req.body.like === 0)){
-//             Sauce.updateOne(
-//               { _id: req.params.id },
-//               { $inc: { dislikes: -1 },
-//                 $pull: { usersDisliked: req.body.userId },
-//               }
-//             )
-//               .then(() => {
-//                 res.status(201).json({ message: "Dislike supprimé !" });
-//               })
-//               .catch((error) => res.status(400).json({ error }));
-//           }            
-//       })
-//   .catch(error => res.status(400).json({ error }));
-//   }
-// }
 
       
   
