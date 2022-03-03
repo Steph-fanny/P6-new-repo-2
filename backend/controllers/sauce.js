@@ -41,7 +41,8 @@ exports.getOneSauce = (req, res, next) => {
 // ***** modification d'une sauce selectionnée : put
 exports.modifySauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-// tableau de 2 élements  : on récupére  nom de fichier tout ce qu'il y a apres /images/
+    if(sauce.userId === res.locals.idUser){
+    // tableau de 2 élements  : on récupére  nom de fichier tout ce qu'il y a apres /images/
     const filename = sauce.imageUrl.split(`/images/`)[1];
     // fonction de fs : unlink (suppression) ancienne image si modif
     fs.unlink(`images/${filename}`,() => {
@@ -59,7 +60,8 @@ exports.modifySauce = (req, res, next) => {
     .then(() => res.status(200).json({ message: "Sauce modifiée !" }))
     .catch((error) => res.status(400).json({ error }));
     });
-  });
+    }
+  });  
 }
   
 
@@ -67,21 +69,24 @@ exports.modifySauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
   // const currentUser = res.locals.idUser;
   // chercher  l'objet à supprimer pour  avoir url image => accés noms fichier à supprimer
-   Sauce.findOne({ _id: req.params.id })
-    // récupération d'1 sauce avec nom fichier
-   .then(sauce => {
+  Sauce.findOne({ _id: req.params.id })
+  .then((sauce) => {
+    // récupération d'1 sauce avec nom fichier   
+    if(sauce.userId === res.locals.idUser){
      // tableau de 2 élements  : on récupére  nom de fichier tout ce qu'il y a apres /images/
       const filename = sauce.imageUrl.split(`/images/`)[1];
       // fonction de fs : unlink (suppression)
       fs.unlink(`images/${filename}`,() => {
       // suppression de la base de donnée
-    sauce.deleteOne({ _id: req.params.id })
+  Sauce.deleteOne({ _id: req.params.id })
     .then(() => res.status(200).json({ message: "Sauce supprimée !" }))
     .catch(error => res.status(400).json({ error }));
-      });
-   })
-   .catch(error => res.status(500).json({ error }));
-};
+      }) 
+    }
+  })
+.catch(error => res.status(500).json({ error }));
+}
+        
 
 //****récupération de  toutes les sauces 
 exports.getAllSauce = (req, res, next) => {

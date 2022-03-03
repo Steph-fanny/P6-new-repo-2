@@ -31,7 +31,7 @@ const userRoutes = require("./routes/user");
 mongoose
   .connect(
     // "mongodb+srv://STP6opr:pL7aJVPqZ3MNTzp@cluster0.t2d6e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    process.env.passwordConnexionMDB,
+    process.env.userConnexionMDB,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
