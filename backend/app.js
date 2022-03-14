@@ -30,7 +30,7 @@ const userRoutes = require("./routes/user");
 // connexion à MongoDB =BDD
 mongoose
   .connect(
-    // "mongodb+srv://STP6opr:pL7aJVPqZ3MNTzp@cluster0.t2d6e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    
     process.env.userConnexionMDB,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
